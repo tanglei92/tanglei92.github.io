@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="关于我">
+  <article class="space-y-8 animate-fade-in">
+    <header class="space-y-4">
+      <h1 class="text-3xl font-bold">关于我</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400">
+        Growth Hacker，终身学习者，热爱技术与生活
+      </p>
+    </header>
+
+    <div class="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed">
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">简介</h2>
+        <p>
+          你好！我是 MrLeion，一名专注于 Android 开发的软件工程师。
+          我热爱技术，享受通过代码解决问题的过程。
+          同时，我也是一个终身学习者，持续探索新技术、新领域。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">技能</h2>
+        <div class="flex flex-wrap gap-2">
+          {['Android', 'Kotlin', 'Java', 'JavaScript', 'TypeScript', 'React', 'Vue', 'Node.js', 'Python', 'Git', 'Docker'].map(skill => (
+            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">经历</h2>
+        <p>
+          从事软件开发多年，参与过多个移动应用和互联网产品的开发。
+          在技术实践中积累了丰富的经验，同时也在不断学习和成长。
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">兴趣</h2>
+        <ul class="list-disc list-inside space-y-2">
+          <li>阅读技术书籍和博客</li>
+          <li>开源项目贡献</li>
+          <li>摄影和旅行</li>
+          <li>美食探索</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">联系我</h2>
+        <p>
+          如果你想和我交流，欢迎通过以下方式联系：
+        </p>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <a href="https://github.com/MrLeion" class="text-blue-600 dark:text-blue-400 hover:underline">
+              GitHub - @MrLeion
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/MrLeion" class="text-blue-600 dark:text-blue-400 hover:underline">
+              Twitter/X - @MrLeion
+            </a>
+          </li>
+          <li>
+            <a href="https://space.bilibili.com/MrLeion" class="text-blue-600 dark:text-blue-400 hover:underline">
+              Bilibili - MrLeion
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

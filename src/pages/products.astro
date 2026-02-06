@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Card from '../components/Card.astro'
+
+const products = [
+  {
+    title: 'Awesome Coder',
+    description: 'Growth Hacker 成长之路笔记，记录技术学习的点滴。包含 Android 开发、JavaScript、商业思考等内容。',
+    href: 'https://github.com/MrLeion/awesome-coder',
+    tags: ['开源', '学习笔记', 'Android'],
+  },
+]
+---
+
+<BaseLayout title="产品">
+  <div class="space-y-8 animate-fade-in">
+    <header class="space-y-4">
+      <h1 class="text-3xl font-bold">产品</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        这里展示我开发或参与的项目和产品
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-6">
+      {products.map((product) => (
+        <Card
+          title={product.title}
+          description={product.description}
+          href={product.href}
+          tags={product.tags}
+        />
+      ))}
+    </div>
+
+    <div class="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl text-center">
+      <p class="text-gray-600 dark:text-gray-400">
+        更多产品正在开发中，敬请期待...
+      </p>
+    </div>
+  </div>
+</BaseLayout>

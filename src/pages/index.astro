@@ -1,17 +1,109 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Card from '../components/Card.astro'
+import { getCollection } from 'astro:content'
 
+let posts: any[] = []
+try {
+  posts = (await getCollection('blog'))
+    .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+    .slice(0, 5)
+} catch {
+  // Collection might not exist yet
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="首页">
+  <div class="space-y-16 animate-fade-in">
+    <!-- Hero Section -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-6">
+        <img
+          src="/images/avatar.jpg"
+          alt="MrLeion"
+          class="w-24 h-24 rounded-full object-cover ring-4 ring-gray-100 dark:ring-gray-800"
+          onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=ML'"
+        />
+        <div>
+          <h1 class="text-3xl font-bold">Hey, I'm MrLeion</h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
+            Growth Hacker · 终身学习者
+          </p>
+        </div>
+      </div>
+
+      <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+        一个热爱技术、热爱生活的开发者。专注于 Android 开发、产品设计和个人成长。
+        在这里记录学习的点滴，分享有价值的内容。
+      </p>
+
+      <div class="flex gap-4">
+        <a
+          href="/about"
+          class="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
+        >
+          了解更多
+        </a>
+        <a
+          href="/blog"
+          class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+        >
+          阅读博客
+        </a>
+      </div>
+    </section>
+
+    <!-- Recent Posts -->
+    <section class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">最新文章</h2>
+        <a href="/blog" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          查看全部 →
+        </a>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="space-y-4">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded transition-colors"
+            >
+              <span class="font-medium">{post.data.title}</span>
+              <time class="text-sm text-gray-500 dark:text-gray-400">
+                {new Date(post.data.date).toLocaleDateString('zh-CN')}
+              </time>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="text-gray-500 dark:text-gray-400">暂无文章，敬请期待...</p>
+      )}
+    </section>
+
+    <!-- Featured Products -->
+    <section class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">精选产品</h2>
+        <a href="/products" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          查看全部 →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Card
+          title="Awesome Coder"
+          description="Growth Hacker 成长之路笔记，记录技术学习的点滴。"
+          href="https://github.com/MrLeion/awesome-coder"
+          tags={["开源", "学习笔记"]}
+        />
+        <Card
+          title="更多项目"
+          description="持续更新中，欢迎关注。"
+          href="/products"
+          tags={["敬请期待"]}
+        />
+      </div>
+    </section>
+  </div>
+</BaseLayout>
