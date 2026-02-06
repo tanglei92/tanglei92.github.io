@@ -11,54 +11,233 @@ const navItems = [
 const currentPath = Astro.url.pathname
 ---
 
-<header class="flex items-center justify-between py-4 border-b border-gray-200 dark:border-gray-800">
-  <a href="/" class="text-xl font-bold hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-    MrLeion
-  </a>
+<!-- Interactive Header Banner -->
+<div id="header-banner" class="h-32 sm:h-40 relative overflow-hidden bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+  <canvas id="particles-canvas" class="absolute inset-0 w-full h-full"></canvas>
+  <div class="absolute inset-0 flex items-center justify-center">
+    <h1 class="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
+      Hello World
+    </h1>
+  </div>
+</div>
 
-  <nav class="flex items-center gap-6">
-    {navItems.map((item) => (
-      <a
-        href={item.href}
-        class:list={[
-          'text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors',
-          currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-            ? 'text-blue-600 dark:text-blue-400 font-medium'
-            : 'text-gray-600 dark:text-gray-400'
-        ]}
-      >
-        {item.label}
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between py-4">
+      <a href="/" class="text-xl font-bold hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        Tanglei
       </a>
-    ))}
 
-    <button
-      id="theme-toggle"
-      class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-      aria-label="切换主题"
-    >
-      <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-      <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-      </svg>
-    </button>
-  </nav>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-6">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors',
+              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
+                ? 'text-blue-600 dark:text-blue-400 font-medium'
+                : 'text-gray-600 dark:text-gray-400'
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          aria-label="切换主题"
+        >
+          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="flex items-center gap-2 md:hidden">
+        <button
+          id="theme-toggle-mobile"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          aria-label="切换主题"
+        >
+          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        <button
+          id="mobile-menu-btn"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          aria-label="菜单"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav id="mobile-menu" class="hidden md:hidden pb-4">
+      <div class="flex flex-col gap-2">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'px-4 py-2 rounded-lg transition-colors',
+              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
+                ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-medium'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </nav>
+  </div>
 </header>
 
 <script>
-  const toggle = document.getElementById('theme-toggle')
-  const html = document.documentElement
+  // Theme toggle
+  const toggleTheme = () => {
+    const html = document.documentElement
+    html.classList.toggle('dark')
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light')
+  }
 
   const theme = localStorage.getItem('theme') ||
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
 
   if (theme === 'dark') {
-    html.classList.add('dark')
+    document.documentElement.classList.add('dark')
   }
 
-  toggle?.addEventListener('click', () => {
-    html.classList.toggle('dark')
-    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light')
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme)
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme)
+
+  // Mobile menu
+  const menuBtn = document.getElementById('mobile-menu-btn')
+  const mobileMenu = document.getElementById('mobile-menu')
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden')
   })
+
+  // Particles animation
+  const canvas = document.getElementById('particles-canvas') as HTMLCanvasElement
+  if (canvas) {
+    const ctx = canvas.getContext('2d')
+    let particles: { x: number; y: number; vx: number; vy: number; size: number; color: string }[] = []
+    let mouseX = 0
+    let mouseY = 0
+    let isMouseOver = false
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+
+    const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4']
+
+    const createParticles = () => {
+      particles = []
+      const count = Math.floor((canvas.width * canvas.height) / 8000)
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          size: Math.random() * 3 + 1,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        })
+      }
+    }
+
+    const animate = () => {
+      if (!ctx) return
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      particles.forEach(p => {
+        // Mouse interaction
+        if (isMouseOver) {
+          const dx = mouseX - p.x
+          const dy = mouseY - p.y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 100) {
+            const force = (100 - dist) / 100
+            p.vx -= (dx / dist) * force * 0.5
+            p.vy -= (dy / dist) * force * 0.5
+          }
+        }
+
+        // Update position
+        p.x += p.vx
+        p.y += p.vy
+
+        // Damping
+        p.vx *= 0.99
+        p.vy *= 0.99
+
+        // Boundaries
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1
+
+        // Draw
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = p.color
+        ctx.globalAlpha = 0.6
+        ctx.fill()
+      })
+
+      // Draw connections
+      ctx.globalAlpha = 0.1
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach(p2 => {
+          const dx = p1.x - p2.x
+          const dy = p1.y - p2.y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 80) {
+            ctx.beginPath()
+            ctx.moveTo(p1.x, p1.y)
+            ctx.lineTo(p2.x, p2.y)
+            ctx.strokeStyle = p1.color
+            ctx.stroke()
+          }
+        })
+      })
+
+      requestAnimationFrame(animate)
+    }
+
+    const banner = document.getElementById('header-banner')
+    banner?.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseX = e.clientX - rect.left
+      mouseY = e.clientY - rect.top
+      isMouseOver = true
+    })
+
+    banner?.addEventListener('mouseleave', () => {
+      isMouseOver = false
+    })
+
+    resize()
+    createParticles()
+    animate()
+
+    window.addEventListener('resize', () => {
+      resize()
+      createParticles()
+    })
+  }
 </script>

@@ -4,19 +4,19 @@ import SocialLink from '../components/SocialLink.astro'
 
 const socialLinks = [
   {
-    href: 'https://github.com/MrLeion',
+    href: 'https://github.com/tanglei92',
     label: 'GitHub',
     icon: 'github' as const,
     description: '查看我的开源项目和代码'
   },
   {
-    href: 'https://twitter.com/MrLeion',
+    href: 'https://twitter.com/tanglei92',
     label: 'Twitter / X',
     icon: 'twitter' as const,
     description: '关注我的动态和想法'
   },
   {
-    href: 'https://space.bilibili.com/MrLeion',
+    href: 'https://space.bilibili.com/tanglei92',
     label: 'Bilibili',
     icon: 'bilibili' as const,
     description: '观看我的视频内容'
@@ -81,13 +81,13 @@ const friendLinks: { name: string; url: string; avatar: string; description: str
 
     <!-- RSS -->
     <section class="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl">
-      <div class="flex items-center gap-4">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
         <div class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-900/30 rounded-lg">
           <svg class="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
           </svg>
         </div>
-        <div>
+        <div class="text-center sm:text-left">
           <div class="font-medium text-gray-900 dark:text-gray-100">RSS 订阅</div>
           <div class="text-sm text-gray-500 dark:text-gray-400">
             通过 RSS 订阅获取最新文章更新
@@ -95,7 +95,7 @@ const friendLinks: { name: string; url: string; avatar: string; description: str
         </div>
         <a
           href="/rss.xml"
-          class="ml-auto px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+          class="sm:ml-auto px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
         >
           订阅
         </a>

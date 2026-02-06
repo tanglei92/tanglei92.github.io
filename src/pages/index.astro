@@ -17,15 +17,15 @@ try {
   <div class="space-y-16 animate-fade-in">
     <!-- Hero Section -->
     <section class="space-y-6">
-      <div class="flex items-center gap-6">
+      <div class="flex flex-col sm:flex-row items-center gap-6">
         <img
           src="/images/avatar.jpg"
-          alt="MrLeion"
+          alt="Tanglei"
           class="w-24 h-24 rounded-full object-cover ring-4 ring-gray-100 dark:ring-gray-800"
-          onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=ML'"
+          onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=TL'"
         />
-        <div>
-          <h1 class="text-3xl font-bold">Hey, I'm MrLeion</h1>
+        <div class="text-center sm:text-left">
+          <h1 class="text-3xl font-bold">Hey, I'm Tanglei</h1>
           <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
             Growth Hacker · 终身学习者
           </p>
@@ -37,7 +37,7 @@ try {
         在这里记录学习的点滴，分享有价值的内容。
       </p>
 
-      <div class="flex gap-4">
+      <div class="flex flex-wrap gap-4 justify-center sm:justify-start">
         <a
           href="/about"
           class="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
@@ -67,7 +67,7 @@ try {
           {posts.map((post) => (
             <a
               href={`/blog/${post.slug}`}
-              class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded transition-colors"
+              class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-2 px-2 rounded transition-colors gap-1"
             >
               <span class="font-medium">{post.data.title}</span>
               <time class="text-sm text-gray-500 dark:text-gray-400">
@@ -92,10 +92,10 @@ try {
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card
-          title="Awesome Coder"
-          description="Growth Hacker 成长之路笔记，记录技术学习的点滴。"
-          href="https://github.com/MrLeion/awesome-coder"
-          tags={["开源", "学习笔记"]}
+          title="Kids Math App"
+          description="儿童数学学习应用，让孩子在游戏中学习数学。"
+          href="https://github.com/tanglei92/kids-math-app"
+          tags={["教育", "React Native"]}
         />
         <Card
           title="更多项目"
