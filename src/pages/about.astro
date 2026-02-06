@@ -5,16 +5,16 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 <BaseLayout title="关于我">
   <article class="space-y-8 animate-fade-in">
     <header class="space-y-4">
-      <h1 class="text-3xl font-bold">关于我</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400">
+      <h1 class="text-3xl font-bold" data-zh="关于我" data-en="About Me">关于我</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400" data-zh="Growth Hacker，终身学习者，热爱技术与生活" data-en="Growth Hacker, Lifelong Learner, Passionate about Tech and Life">
         Growth Hacker，终身学习者，热爱技术与生活
       </p>
     </header>
 
     <div class="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed">
       <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">简介</h2>
-        <p>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4" data-zh="简介" data-en="Introduction">简介</h2>
+        <p data-zh="你好！我是 Tanglei，一名专注于 Android 开发的软件工程师。我热爱技术，享受通过代码解决问题的过程。同时，我也是一个终身学习者，持续探索新技术、新领域。" data-en="Hi! I'm Tanglei, a software engineer focused on Android development. I love technology and enjoy solving problems through code. I'm also a lifelong learner, constantly exploring new technologies and fields.">
           你好！我是 Tanglei，一名专注于 Android 开发的软件工程师。
           我热爱技术，享受通过代码解决问题的过程。
           同时，我也是一个终身学习者，持续探索新技术、新领域。
@@ -22,7 +22,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">技能</h2>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4" data-zh="技能" data-en="Skills">技能</h2>
         <div class="flex flex-wrap gap-2">
           {['Android', 'Kotlin', 'Java', 'JavaScript', 'TypeScript', 'React', 'Vue', 'Node.js', 'Python', 'Git', 'Docker'].map(skill => (
             <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm">
@@ -33,26 +33,26 @@ import BaseLayout from '../layouts/BaseLayout.astro'
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">经历</h2>
-        <p>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4" data-zh="经历" data-en="Experience">经历</h2>
+        <p data-zh="从事软件开发多年，参与过多个移动应用和互联网产品的开发。在技术实践中积累了丰富的经验，同时也在不断学习和成长。" data-en="Years of experience in software development, participated in multiple mobile apps and internet products. Accumulated rich experience in technical practice while continuously learning and growing.">
           从事软件开发多年，参与过多个移动应用和互联网产品的开发。
           在技术实践中积累了丰富的经验，同时也在不断学习和成长。
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">兴趣</h2>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4" data-zh="兴趣" data-en="Interests">兴趣</h2>
         <ul class="list-disc list-inside space-y-2">
-          <li>阅读技术书籍和博客</li>
-          <li>开源项目贡献</li>
-          <li>摄影和旅行</li>
-          <li>美食探索</li>
+          <li data-zh="阅读技术书籍和博客" data-en="Reading technical books and blogs">阅读技术书籍和博客</li>
+          <li data-zh="开源项目贡献" data-en="Contributing to open source projects">开源项目贡献</li>
+          <li data-zh="摄影和旅行" data-en="Photography and traveling">摄影和旅行</li>
+          <li data-zh="美食探索" data-en="Food exploration">美食探索</li>
         </ul>
       </section>
 
       <section>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">联系我</h2>
-        <p>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4" data-zh="联系我" data-en="Contact Me">联系我</h2>
+        <p data-zh="如果你想和我交流，欢迎通过以下方式联系：" data-en="If you want to get in touch, feel free to reach out through:">
           如果你想和我交流，欢迎通过以下方式联系：
         </p>
         <ul class="mt-4 space-y-2">
@@ -62,13 +62,13 @@ import BaseLayout from '../layouts/BaseLayout.astro'
             </a>
           </li>
           <li>
-            <a href="https://twitter.com/tanglei92" class="text-blue-600 dark:text-blue-400 hover:underline">
-              Twitter/X - @tanglei92
+            <a href="https://x.com/MrLeion" class="text-blue-600 dark:text-blue-400 hover:underline">
+              X - @MrLeion
             </a>
           </li>
           <li>
-            <a href="https://space.bilibili.com/tanglei92" class="text-blue-600 dark:text-blue-400 hover:underline">
-              Bilibili - tanglei92
+            <a href="mailto:shtangzenglei@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">
+              Email - shtangzenglei@gmail.com
             </a>
           </li>
         </ul>

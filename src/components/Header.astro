@@ -1,35 +1,21 @@
 ---
+interface Props {
+  showSearch?: boolean
+}
+
+const { showSearch = false } = Astro.props
+
 const navItems = [
-  { href: '/', label: '首页' },
-  { href: '/about', label: '关于' },
-  { href: '/products', label: '产品' },
-  { href: '/blog', label: '博客' },
-  { href: '/gallery', label: '相册' },
-  { href: '/links', label: '链接' },
+  { href: '/', label: '首页', labelEn: 'Home' },
+  { href: '/about', label: '关于', labelEn: 'About' },
+  { href: '/products', label: '产品', labelEn: 'Products' },
+  { href: '/blog', label: '博客', labelEn: 'Blog' },
+  { href: '/gallery', label: '相册', labelEn: 'Gallery' },
+  { href: '/links', label: '链接', labelEn: 'Links' },
 ]
 
 const currentPath = Astro.url.pathname
 ---
-
-<!-- Interactive Header Banner with Fireworks -->
-<div id="header-banner" class="h-48 sm:h-56 relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 cursor-pointer select-none">
-  <canvas id="fireworks-canvas" class="absolute inset-0 w-full h-full"></canvas>
-  <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-    <div class="text-center px-4">
-      <p class="text-base sm:text-lg text-gray-300 font-light leading-relaxed tracking-wide">
-        <span class="block">There are no shortcuts;</span>
-        <span class="block mt-1">There are no hacks;</span>
-        <span class="block mt-2 text-gray-400 text-sm sm:text-base">If you want to take the easy road, I promise you:</span>
-        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 font-medium">
-          it's harder and painful than the hard road.
-        </span>
-      </p>
-    </div>
-  </div>
-  <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-gray-500 pointer-events-none">
-    点击或移动鼠标触发烟花 ✨
-  </div>
-</div>
 
 <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
   <div class="max-w-3xl mx-auto px-4 sm:px-6">
@@ -39,48 +25,71 @@ const currentPath = Astro.url.pathname
       </a>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center gap-6">
+      <nav class="hidden md:flex items-center gap-4">
         {navItems.map((item) => (
           <a
             href={item.href}
             class:list={[
-              'text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors',
+              'text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors nav-item',
               currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
                 ? 'text-blue-600 dark:text-blue-400 font-medium'
                 : 'text-gray-600 dark:text-gray-400'
             ]}
+            data-label-zh={item.label}
+            data-label-en={item.labelEn}
           >
-            {item.label}
+            <span class="label-text">{item.label}</span>
           </a>
         ))}
 
+        <!-- Language Toggle -->
+        <button
+          id="lang-toggle"
+          class="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-blue-500 dark:hover:border-blue-400 transition-all text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+          aria-label="切换语言"
+        >
+          <span id="lang-text">EN</span>
+        </button>
+
+        <!-- Theme Toggle -->
         <button
           id="theme-toggle"
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          class="relative w-14 h-7 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           aria-label="切换主题"
         >
-          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
+          <span class="absolute left-1 top-1 w-5 h-5 rounded-full bg-white dark:bg-gray-900 shadow-md transform dark:translate-x-7 transition-transform duration-300 flex items-center justify-center">
+            <svg class="w-3 h-3 hidden dark:block text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="w-3 h-3 block dark:hidden text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </span>
         </button>
       </nav>
 
       <!-- Mobile Menu Button -->
       <div class="flex items-center gap-2 md:hidden">
         <button
+          id="lang-toggle-mobile"
+          class="px-2.5 py-1 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-xs font-medium text-gray-600 dark:text-gray-400"
+          aria-label="切换语言"
+        >
+          <span id="lang-text-mobile">EN</span>
+        </button>
+        <button
           id="theme-toggle-mobile"
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          class="relative w-12 h-6 rounded-full bg-gray-200 dark:bg-gray-700 transition-all duration-300 focus:outline-none"
           aria-label="切换主题"
         >
-          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
+          <span class="absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-white dark:bg-gray-900 shadow-md transform dark:translate-x-6 transition-transform duration-300 flex items-center justify-center">
+            <svg class="w-3 h-3 hidden dark:block text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="w-3 h-3 block dark:hidden text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </span>
         </button>
         <button
           id="mobile-menu-btn"
@@ -88,7 +97,7 @@ const currentPath = Astro.url.pathname
           aria-label="菜单"
         >
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
@@ -101,17 +110,36 @@ const currentPath = Astro.url.pathname
           <a
             href={item.href}
             class:list={[
-              'px-4 py-2 rounded-lg transition-colors',
+              'px-4 py-2 rounded-lg transition-colors nav-item',
               currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
                 ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-medium'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
             ]}
+            data-label-zh={item.label}
+            data-label-en={item.labelEn}
           >
-            {item.label}
+            <span class="label-text">{item.label}</span>
           </a>
         ))}
       </div>
     </nav>
+
+    <!-- Search Box (only shown when showSearch is true) -->
+    {showSearch && (
+      <div class="pb-4">
+        <div class="relative">
+          <input
+            type="text"
+            id="blog-search"
+            placeholder="搜索博客文章..."
+            class="w-full px-4 py-2 pl-10 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+          />
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+    )}
   </div>
 </header>
 
@@ -133,6 +161,69 @@ const currentPath = Astro.url.pathname
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme)
   document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme)
 
+  // Language toggle
+  const toggleLang = () => {
+    const currentLang = localStorage.getItem('lang') || 'zh'
+    const newLang = currentLang === 'zh' ? 'en' : 'zh'
+    localStorage.setItem('lang', newLang)
+    updateLanguage(newLang)
+  }
+
+  const updateLanguage = (lang: string) => {
+    // Update toggle button text
+    const langTexts = document.querySelectorAll('#lang-text, #lang-text-mobile')
+    langTexts.forEach(el => {
+      el.textContent = lang === 'zh' ? 'EN' : '中'
+    })
+
+    // Update nav items
+    const navItems = document.querySelectorAll('.nav-item')
+    navItems.forEach(item => {
+      const labelText = item.querySelector('.label-text')
+      if (labelText) {
+        const zhLabel = item.getAttribute('data-label-zh')
+        const enLabel = item.getAttribute('data-label-en')
+        labelText.textContent = lang === 'zh' ? zhLabel : enLabel
+      }
+    })
+
+    // Update search placeholder
+    const searchInput = document.getElementById('blog-search') as HTMLInputElement
+    if (searchInput) {
+      searchInput.placeholder = lang === 'zh' ? '搜索博客文章...' : 'Search posts...'
+    }
+
+    // Update all translatable content on the page
+    const translatables = document.querySelectorAll('[data-zh][data-en]')
+    translatables.forEach(el => {
+      const zhText = el.getAttribute('data-zh')
+      const enText = el.getAttribute('data-en')
+      if (zhText && enText) {
+        el.textContent = lang === 'zh' ? zhText : enText
+      }
+    })
+
+    // Update translatable placeholders
+    const translatablePlaceholders = document.querySelectorAll('[data-placeholder-zh][data-placeholder-en]')
+    translatablePlaceholders.forEach(el => {
+      const zhText = el.getAttribute('data-placeholder-zh')
+      const enText = el.getAttribute('data-placeholder-en')
+      if (zhText && enText && el instanceof HTMLInputElement) {
+        el.placeholder = lang === 'zh' ? zhText : enText
+      }
+    })
+
+    // Set html lang attribute
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'
+  }
+
+  // Initialize language
+  const savedLang = localStorage.getItem('lang') || 'zh'
+  updateLanguage(savedLang)
+
+  document.getElementById('lang-toggle')?.addEventListener('click', toggleLang)
+  document.getElementById('lang-toggle-mobile')?.addEventListener('click', toggleLang)
+
   // Mobile menu
   const menuBtn = document.getElementById('mobile-menu-btn')
   const mobileMenu = document.getElementById('mobile-menu')
@@ -141,197 +232,23 @@ const currentPath = Astro.url.pathname
     mobileMenu?.classList.toggle('hidden')
   })
 
-  // Fireworks animation
-  const canvas = document.getElementById('fireworks-canvas') as HTMLCanvasElement
-  if (canvas) {
-    const ctx = canvas.getContext('2d')
+  // Blog search functionality
+  const searchInput = document.getElementById('blog-search') as HTMLInputElement
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase()
+      const posts = document.querySelectorAll('[data-post-title]')
 
-    interface Particle {
-      x: number
-      y: number
-      vx: number
-      vy: number
-      life: number
-      maxLife: number
-      color: string
-      size: number
-      gravity: number
-      friction: number
-    }
+      posts.forEach(post => {
+        const title = post.getAttribute('data-post-title')?.toLowerCase() || ''
+        const description = post.getAttribute('data-post-description')?.toLowerCase() || ''
 
-    let particles: Particle[] = []
-    let lastMouseX = 0
-    let lastMouseY = 0
-    let mouseThrottle = 0
-
-    const colors = [
-      '#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff',
-      '#5f27cd', '#00d2d3', '#ff9f43', '#ee5a24', '#c7ecee',
-      '#ffeaa7', '#dfe6e9', '#fd79a8', '#a29bfe', '#6c5ce7'
-    ]
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio
-      ctx?.scale(window.devicePixelRatio, window.devicePixelRatio)
-    }
-
-    const createFirework = (x: number, y: number, count = 30) => {
-      const baseColor = colors[Math.floor(Math.random() * colors.length)]
-
-      for (let i = 0; i < count; i++) {
-        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5
-        const velocity = 2 + Math.random() * 4
-        const life = 40 + Math.random() * 40
-
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * velocity,
-          vy: Math.sin(angle) * velocity,
-          life,
-          maxLife: life,
-          color: Math.random() > 0.3 ? baseColor : colors[Math.floor(Math.random() * colors.length)],
-          size: 1.5 + Math.random() * 2,
-          gravity: 0.05 + Math.random() * 0.03,
-          friction: 0.98
-        })
-      }
-    }
-
-    const createSparkle = (x: number, y: number) => {
-      const count = 5 + Math.floor(Math.random() * 5)
-      for (let i = 0; i < count; i++) {
-        const angle = Math.random() * Math.PI * 2
-        const velocity = 1 + Math.random() * 2
-
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * velocity,
-          vy: Math.sin(angle) * velocity,
-          life: 20 + Math.random() * 20,
-          maxLife: 30,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          size: 1 + Math.random() * 1.5,
-          gravity: 0.02,
-          friction: 0.96
-        })
-      }
-    }
-
-    const animate = () => {
-      if (!ctx) return
-
-      // Clear with slight fade for trail effect
-      ctx.fillStyle = 'rgba(17, 24, 39, 0.15)'
-      ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
-
-      // Update and draw particles
-      particles = particles.filter(p => {
-        p.vy += p.gravity
-        p.vx *= p.friction
-        p.vy *= p.friction
-        p.x += p.vx
-        p.y += p.vy
-        p.life--
-
-        if (p.life <= 0) return false
-
-        const alpha = p.life / p.maxLife
-        const size = p.size * (0.5 + alpha * 0.5)
-
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, size, 0, Math.PI * 2)
-        ctx.fillStyle = p.color
-        ctx.globalAlpha = alpha
-        ctx.fill()
-
-        // Add glow effect
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, size * 2, 0, Math.PI * 2)
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size * 2)
-        gradient.addColorStop(0, p.color)
-        gradient.addColorStop(1, 'transparent')
-        ctx.fillStyle = gradient
-        ctx.globalAlpha = alpha * 0.3
-        ctx.fill()
-
-        return true
-      })
-
-      ctx.globalAlpha = 1
-      requestAnimationFrame(animate)
-    }
-
-    const banner = document.getElementById('header-banner')
-
-    // Click to create firework
-    banner?.addEventListener('click', (e) => {
-      const rect = canvas.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-      createFirework(x, y, 40 + Math.floor(Math.random() * 20))
-    })
-
-    // Mouse move to create sparkles
-    banner?.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-
-      // Throttle sparkle creation
-      const now = Date.now()
-      if (now - mouseThrottle > 50) {
-        const dx = x - lastMouseX
-        const dy = y - lastMouseY
-        const distance = Math.sqrt(dx * dx + dy * dy)
-
-        if (distance > 5) {
-          createSparkle(x, y)
-          lastMouseX = x
-          lastMouseY = y
-          mouseThrottle = now
+        if (title.includes(query) || description.includes(query)) {
+          (post as HTMLElement).style.display = ''
+        } else {
+          (post as HTMLElement).style.display = 'none'
         }
-      }
+      })
     })
-
-    // Touch support
-    banner?.addEventListener('touchstart', (e) => {
-      e.preventDefault()
-      const rect = canvas.getBoundingClientRect()
-      const touch = e.touches[0]
-      const x = touch.clientX - rect.left
-      const y = touch.clientY - rect.top
-      createFirework(x, y, 40)
-    })
-
-    banner?.addEventListener('touchmove', (e) => {
-      e.preventDefault()
-      const rect = canvas.getBoundingClientRect()
-      const touch = e.touches[0]
-      const x = touch.clientX - rect.left
-      const y = touch.clientY - rect.top
-
-      const now = Date.now()
-      if (now - mouseThrottle > 80) {
-        createSparkle(x, y)
-        mouseThrottle = now
-      }
-    })
-
-    // Initial fireworks on load
-    setTimeout(() => {
-      const centerX = canvas.offsetWidth / 2
-      const centerY = canvas.offsetHeight / 2
-      createFirework(centerX - 80, centerY, 25)
-      setTimeout(() => createFirework(centerX + 80, centerY - 20, 25), 200)
-      setTimeout(() => createFirework(centerX, centerY + 30, 25), 400)
-    }, 500)
-
-    resize()
-    animate()
-
-    window.addEventListener('resize', resize)
   }
 </script>

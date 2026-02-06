@@ -1,45 +1,125 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import Card from '../components/Card.astro'
 
-const products = [
+const projects = [
   {
-    title: 'Kids Math App',
-    description: '儿童数学学习应用，让孩子在游戏中学习数学，培养数学兴趣和逻辑思维能力。',
-    href: 'https://github.com/tanglei92/kids-math-app',
-    tags: ['教育', 'React Native', '开源'],
-  },
-  {
-    title: 'Awesome Coder',
-    description: 'Growth Hacker 成长之路笔记，记录技术学习的点滴。包含 Android 开发、JavaScript、商业思考等内容。',
-    href: 'https://github.com/tanglei92/awesome-coder',
-    tags: ['开源', '学习笔记', 'Android'],
+    year: '2025',
+    items: [
+      {
+        month: '02',
+        monthZh: '02月',
+        monthEn: 'Feb',
+        title: '个人网站 2.0',
+        titleEn: 'Personal Website 2.0',
+        description: '基于 Astro 构建的全新个人网站，支持中英文切换、烟花特效等功能。',
+        descriptionEn: 'New personal website built with Astro, supporting bilingual and fireworks effects.',
+        href: '/',
+        tags: ['Astro', 'TypeScript', 'TailwindCSS'],
+        tagsEn: ['Astro', 'TypeScript', 'TailwindCSS'],
+        status: 'released',
+        statusZh: '已发布',
+        statusEn: 'Released',
+      },
+      {
+        month: '01',
+        monthZh: '01月',
+        monthEn: 'Jan',
+        title: 'Kids Math App',
+        titleEn: 'Kids Math App',
+        description: '儿童数学学习应用，让孩子在游戏中学习数学，培养数学兴趣和逻辑思维能力。',
+        descriptionEn: 'A children\'s math learning app that helps kids learn math through games.',
+        href: 'https://github.com/tanglei92/kids-math-app',
+        tags: ['教育', 'React Native', '开源'],
+        tagsEn: ['Education', 'React Native', 'Open Source'],
+        status: 'released',
+        statusZh: '已发布',
+        statusEn: 'Released',
+      },
+    ],
   },
 ]
 ---
 
 <BaseLayout title="产品">
-  <div class="space-y-8 animate-fade-in">
+  <div class="space-y-12 animate-fade-in">
     <header class="space-y-4">
-      <h1 class="text-3xl font-bold">产品</h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        这里展示我开发或参与的项目和产品
+      <h1 class="text-3xl font-bold" data-zh="产品" data-en="Products">产品</h1>
+      <p class="text-gray-600 dark:text-gray-400" data-zh="这里展示我开发或参与的项目，按时间线排列" data-en="Here are the projects I developed or participated in, arranged by timeline">
+        这里展示我开发或参与的项目，按时间线排列
       </p>
     </header>
 
-    <div class="grid grid-cols-1 gap-6">
-      {products.map((product) => (
-        <Card
-          title={product.title}
-          description={product.description}
-          href={product.href}
-          tags={product.tags}
-        />
-      ))}
-    </div>
+    <section class="relative">
+      <!-- Timeline Line -->
+      <div class="absolute left-6 sm:left-8 top-0 bottom-0 w-0.5 bg-blue-500"></div>
 
-    <div class="p-6 bg-gray-50 dark:bg-gray-900 rounded-xl text-center">
-      <p class="text-gray-600 dark:text-gray-400">
+      {projects.map((yearGroup, yearIndex) => (
+        <div class="mb-12 last:mb-0">
+          <!-- Year Marker -->
+          <div class="flex items-center mb-6 relative">
+            <div class="w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-blue-500 flex items-center justify-center z-10 shadow-lg shadow-blue-500/30">
+              <span class="text-white text-lg sm:text-xl font-bold">{yearGroup.year}</span>
+            </div>
+          </div>
+
+          <!-- Projects for this year -->
+          <div class="ml-16 sm:ml-20 space-y-6">
+            {yearGroup.items.map((project) => (
+              <div class="group relative">
+                <!-- Connector dot -->
+                <div class="absolute -left-[2.75rem] sm:-left-[3rem] top-6 w-3 h-3 rounded-full bg-blue-300 dark:bg-blue-700 group-hover:bg-blue-500 transition-colors"></div>
+
+                <!-- Project Card -->
+                <a
+                  href={project.href}
+                  target={project.href.startsWith('http') ? '_blank' : '_self'}
+                  rel={project.href.startsWith('http') ? 'noopener noreferrer' : ''}
+                  class="block p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                >
+                  <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-gray-500 dark:text-gray-400 font-mono" data-zh={project.monthZh} data-en={project.monthEn}>
+                        {project.monthZh}
+                      </span>
+                      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" data-zh={project.title} data-en={project.titleEn}>
+                        {project.title}
+                      </h3>
+                    </div>
+                    <span class:list={[
+                      'px-2 py-1 text-xs rounded-full font-medium',
+                      project.status === 'released'
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                        : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'
+                    ]} data-zh={project.statusZh} data-en={project.statusEn}>
+                      {project.statusZh}
+                    </span>
+                  </div>
+
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2" data-zh={project.description} data-en={project.descriptionEn}>
+                    {project.description}
+                  </p>
+
+                  <div class="flex flex-wrap gap-2">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span
+                        class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded"
+                        data-zh={tag}
+                        data-en={project.tagsEn[tagIndex]}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <div class="p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-xl text-center border border-blue-100 dark:border-gray-700">
+      <p class="text-gray-600 dark:text-gray-400" data-zh="更多产品正在开发中，敬请期待..." data-en="More products are in development, stay tuned...">
         更多产品正在开发中，敬请期待...
       </p>
     </div>

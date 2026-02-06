@@ -1,0 +1,267 @@
+---
+// Hero Banner with Fireworks - Only for homepage
+---
+
+<div id="header-banner" class="h-72 sm:h-80 relative overflow-hidden cursor-pointer select-none">
+  <!-- Night Sky Background -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900"></div>
+
+  <!-- Stars Effect -->
+  <div class="absolute inset-0 stars-bg"></div>
+
+  <!-- Fireworks Canvas -->
+  <canvas id="fireworks-canvas" class="absolute inset-0 w-full h-full z-10"></canvas>
+
+  <!-- Content Container -->
+  <div class="absolute inset-0 flex flex-col items-center justify-end pb-4 z-20 pointer-events-none">
+    <!-- Center Text -->
+    <div class="text-center px-4 mb-3">
+      <p class="text-sm sm:text-base text-gray-300/90 font-light leading-relaxed tracking-wide">
+        <span class="block">There are no shortcuts;</span>
+        <span class="block">There are no hacks;</span>
+        <span class="block mt-2 text-gray-400/80 text-xs sm:text-sm">If you want to take the easy road, I promise you:</span>
+        <span class="block text-white/90 font-medium text-sm sm:text-base">
+          it's harder and painful than the hard road.
+        </span>
+      </p>
+    </div>
+
+    <!-- Couple Silhouette Below Text -->
+    <div id="couple-image" class="pointer-events-auto">
+      <img
+        src="/images/couple-silhouette.png"
+        alt="Couple"
+        class="h-28 sm:h-36 w-auto object-contain silhouette"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  .silhouette {
+    filter: grayscale(100%) contrast(300%);
+    mix-blend-mode: multiply;
+  }
+
+  .stars-bg {
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, white, transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 90px 40px, white, transparent),
+      radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 160px 120px, white, transparent),
+      radial-gradient(2px 2px at 200px 50px, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 250px 90px, white, transparent),
+      radial-gradient(2px 2px at 300px 60px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 350px 110px, white, transparent),
+      radial-gradient(2px 2px at 400px 30px, rgba(255,255,255,0.8), transparent);
+    background-size: 450px 150px;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+</style>
+
+<script>
+  // Fireworks animation
+  const canvas = document.getElementById('fireworks-canvas') as HTMLCanvasElement
+  if (canvas) {
+    const ctx = canvas.getContext('2d')
+
+    interface Particle {
+      x: number
+      y: number
+      vx: number
+      vy: number
+      life: number
+      maxLife: number
+      color: string
+      size: number
+      gravity: number
+      friction: number
+    }
+
+    let particles: Particle[] = []
+    let lastMouseX = 0
+    let lastMouseY = 0
+    let mouseThrottle = 0
+
+    // Cold white colors for fireworks
+    const colors = [
+      '#ffffff', '#f0f8ff', '#e6f3ff', '#dbeafe', '#f5f5f5',
+      '#e8e8e8', '#f8fafc', '#eef2ff', '#f1f5f9', '#fafafa'
+    ]
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * window.devicePixelRatio
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio
+      ctx?.scale(window.devicePixelRatio, window.devicePixelRatio)
+    }
+
+    const createFirework = (x: number, y: number, count = 30) => {
+      const baseColor = colors[Math.floor(Math.random() * colors.length)]
+
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5
+        const velocity = 2 + Math.random() * 4
+        const life = 40 + Math.random() * 40
+
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity,
+          life,
+          maxLife: life,
+          color: Math.random() > 0.3 ? baseColor : colors[Math.floor(Math.random() * colors.length)],
+          size: 1.5 + Math.random() * 2,
+          gravity: 0.05 + Math.random() * 0.03,
+          friction: 0.98
+        })
+      }
+    }
+
+    const createSparkle = (x: number, y: number) => {
+      const count = 5 + Math.floor(Math.random() * 5)
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2
+        const velocity = 1 + Math.random() * 2
+
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity,
+          life: 20 + Math.random() * 20,
+          maxLife: 30,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: 1 + Math.random() * 1.5,
+          gravity: 0.02,
+          friction: 0.96
+        })
+      }
+    }
+
+    const animate = () => {
+      if (!ctx) return
+
+      ctx.fillStyle = 'rgba(17, 24, 39, 0.15)'
+      ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
+
+      particles = particles.filter(p => {
+        p.vy += p.gravity
+        p.vx *= p.friction
+        p.vy *= p.friction
+        p.x += p.vx
+        p.y += p.vy
+        p.life--
+
+        if (p.life <= 0) return false
+
+        const alpha = p.life / p.maxLife
+        const size = p.size * (0.5 + alpha * 0.5)
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2)
+        ctx.fillStyle = p.color
+        ctx.globalAlpha = alpha
+        ctx.fill()
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, size * 2, 0, Math.PI * 2)
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size * 2)
+        gradient.addColorStop(0, p.color)
+        gradient.addColorStop(1, 'transparent')
+        ctx.fillStyle = gradient
+        ctx.globalAlpha = alpha * 0.3
+        ctx.fill()
+
+        return true
+      })
+
+      ctx.globalAlpha = 1
+      requestAnimationFrame(animate)
+    }
+
+    const banner = document.getElementById('header-banner')
+    const coupleImage = document.getElementById('couple-image')
+
+    // Check if event is on couple image
+    const isOnCoupleImage = (e: MouseEvent | Touch) => {
+      if (!coupleImage) return false
+      const rect = coupleImage.getBoundingClientRect()
+      return e.clientX >= rect.left && e.clientX <= rect.right &&
+             e.clientY >= rect.top && e.clientY <= rect.bottom
+    }
+
+    banner?.addEventListener('click', (e) => {
+      if (isOnCoupleImage(e)) return
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      createFirework(x, y, 40 + Math.floor(Math.random() * 20))
+    })
+
+    banner?.addEventListener('mousemove', (e) => {
+      if (isOnCoupleImage(e)) return
+      const rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
+      const now = Date.now()
+      if (now - mouseThrottle > 50) {
+        const dx = x - lastMouseX
+        const dy = y - lastMouseY
+        const distance = Math.sqrt(dx * dx + dy * dy)
+
+        if (distance > 5) {
+          createSparkle(x, y)
+          lastMouseX = x
+          lastMouseY = y
+          mouseThrottle = now
+        }
+      }
+    })
+
+    banner?.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0]
+      if (isOnCoupleImage(touch)) return
+      e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      const x = touch.clientX - rect.left
+      const y = touch.clientY - rect.top
+      createFirework(x, y, 40)
+    }, { passive: false })
+
+    banner?.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0]
+      if (isOnCoupleImage(touch)) return
+      e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      const x = touch.clientX - rect.left
+      const y = touch.clientY - rect.top
+
+      const now = Date.now()
+      if (now - mouseThrottle > 80) {
+        createSparkle(x, y)
+        mouseThrottle = now
+      }
+    }, { passive: false })
+
+    setTimeout(() => {
+      const centerX = canvas.offsetWidth / 2
+      const centerY = canvas.offsetHeight / 2
+      createFirework(centerX - 80, centerY, 25)
+      setTimeout(() => createFirework(centerX + 80, centerY - 20, 25), 200)
+      setTimeout(() => createFirework(centerX, centerY + 30, 25), 400)
+    }, 500)
+
+    resize()
+    animate()
+
+    window.addEventListener('resize', resize)
+  }
+</script>
